@@ -1,0 +1,55 @@
+import sys
+
+def solve():
+    # Read all lines from standard input efficiently
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    
+    # Number of test cases
+    t = int(next(iterator))
+    
+    for _ in range(t):
+        n = int(next(iterator)) # Rows
+        m = int(next(iterator)) # Columns
+        
+        # Build the grid row by row
+        grid = []
+        for _ in range(n):
+            grid.append(next(iterator))
+            
+        max_border = 0
+        
+        # 1. Check maximum consecutive '#' in each row
+        for row in grid:
+            current_row_max = 0
+            current_consecutive = 0
+            for cell in row:
+                if cell == '#':
+                    current_consecutive += 1
+                    if current_consecutive > current_row_max:
+                        current_row_max = current_consecutive
+                else:
+                    current_consecutive = 0
+            max_border = max(max_border, current_row_max)
+            
+        # 2. Check maximum consecutive '#' in each column
+        for col_idx in range(m):
+            current_col_max = 0
+            current_consecutive = 0
+            for row_idx in range(n):
+                if grid[row_idx][col_idx] == '#':
+                    current_consecutive += 1
+                    if current_consecutive > current_col_max:
+                        current_col_max = current_consecutive
+                else:
+                    current_consecutive = 0
+            max_border = max(max_border, current_col_max)
+            
+        # Print the answer for the current test case
+        print(max_border)
+
+if __name__ == '__main__':
+    solve()
